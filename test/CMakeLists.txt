@@ -24,9 +24,9 @@ add_cmocka_test(GpioMacrosTests
     LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})
 
 addUtTestTarget(PortMacrosTests)
-add_cmocka_test(PortMacrosTests
-    SOURCES PortMacrosTests.c
-    LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})
+#add_cmocka_test(PortMacrosTests
+#    SOURCES PortMacrosTests.c
+#    LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})
 
 addUtTestTarget(TypesTests)
 add_cmocka_test(TypesTests
