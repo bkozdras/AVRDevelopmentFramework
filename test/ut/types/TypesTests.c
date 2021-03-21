@@ -23,7 +23,12 @@
 static void TypesShouldPassThisFakeTest(void **state)
 {
     (void) state;
+    assert_false(EBoolean_False);
     assert_true(EBoolean_True);
+    _Static_assert(sizeof(TBitNumber) == sizeof(uint8_t));
+    _Static_assert(sizeof(TByte) == sizeof(uint8_t));
+    _Static_assert(sizeof(TMcuRegister) == sizeof(uint8_t));
+    _Static_assert(sizeof(TPinNumber) == sizeof(uint8_t));
 }
 
 int main(void)
