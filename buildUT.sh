@@ -25,7 +25,10 @@ BUILD_DIR=build_$THIS_ARCH
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
-cmake -DUNIT_TESTING_ENABLED:BOOL=ON .. \
+cmake \
+    -DAVR_FRAMEWORK_BUILD_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON .. \
     && make -j$(nproc --all) \
     && ctest -j$(nproc --all) --output-on-failure --timeout 5
 

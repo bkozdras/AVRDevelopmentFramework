@@ -13,9 +13,7 @@ execute_process(COMMAND uname -m
     COMMAND tr -d '\n'
     OUTPUT_VARIABLE THIS_ARCH)
 
-set(UNIT_TESTING_ENABLED OFF CACHE BOOL "Enabled unit tests")
-
-message(STATUS "Is Unit Testing enabled: ${UNIT_TESTING_ENABLED}")
+include(cmake/ParseOptions.cmake)
 
 set(PROJECT_NAME AvrDevelopmentFramework)
 
@@ -28,8 +26,17 @@ message(STATUS "This architecture \(used for tests\): ${THIS_ARCH}")
 enable_language(C)
 
 include_directories(include)
-if (UNIT_TESTING_ENABLED)
+
+if (BUILD_LIBRARY)
+    add_subdirectory(src)
+endif (BUILD_LIBRARY)
+
+if (BUILD_STUB_LIBRARY)
+    add_subdirectory(stub)
+endif (BUILD_STUB_LIBRARY)
+
+if (BUILD_UNIT_TESTS)
     enable_testing()
     include(cmake/FetchCMocka.cmake)
     add_subdirectory(test)
-endif (UNIT_TESTING_ENABLED)
+endif (BUILD_UNIT_TESTS)
