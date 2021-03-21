@@ -5,13 +5,13 @@
 /* Licence: MIT                                                                   */
 /**********************************************************************************/
 
-#ifndef AVRFRAMEWORK_BYTEMACROS_H_
-#define AVRFRAMEWORK_BYTEMACROS_H_
+#ifndef AVRFRAMEWORK_MACROS_BYTEMACROS_H_
+#define AVRFRAMEWORK_MACROS_BYTEMACROS_H_
 
-#define SET_BIT(_BYTE, _BIT) (_BYTE |= (1 << _BIT))
-#define CLEAR_BIT(_BYTE, _BIT) (_BYTE &= ~(1 << _BIT))
+#define BYTE_SET_BIT(_BYTE, _BIT) (_BYTE |= (1 << _BIT))
+#define BYTE_CLEAR_BIT(_BYTE, _BIT) (_BYTE &= ~(1 << _BIT))
 
-#define IS_BIT_SET(_BYTE, _BIT) (_BYTE & (1 << _BIT))
-#define IS_BIT_CLEARED(_BYTE, _BIT) (!(_BYTE & (1 << _BIT)))
+#define BYTE_IS_BIT_SET(_BYTE, _BIT) (_BYTE & (1 << _BIT))
+#define BYTE_IS_BIT_CLEARED(_BYTE, _BIT) (!(_BYTE & (1 << _BIT)))
 
-#endif // AVRFRAMEWORK_BYTEMACROS_H_
+#endif // AVRFRAMEWORK_MACROS_BYTEMACROS_H_
