@@ -8,8 +8,8 @@ message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
 option(AVR_FRAMEWORK_BUILD_LIBRARY_STATIC OFF "Build avrframework static library")
 option(AVR_FRAMEWORK_BUILD_LIBRARY_SHARED OFF "Build libavrframework shared library")
-option(AVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC OFF "Build static avrframeworkstub library")
-option(AVR_FRAMEWORK_BUILD_STUB_LIBRARY_SHARED OFF "Build libavrframeworkstub library")
+option(AVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC OFF "Build avrframeworkstub static library")
+option(AVR_FRAMEWORK_BUILD_STUB_LIBRARY_SHARED OFF "Build libavrframeworkstub shared library")
 option(AVR_FRAMEWORK_UNIT_TESTING_ENABLED OFF "Enabled unit tests building and running")
 
 set(BUILD_LIBRARY OFF)

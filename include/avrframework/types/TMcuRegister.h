@@ -10,6 +10,6 @@
 
 #include <stdint.h>
 
-typedef uint8_t TMcuRegister;
+typedef volatile uint8_t TMcuRegister;
 
 #endif // AVRFRAMEWORK_TYPES_TMCUREGISTER_H_
