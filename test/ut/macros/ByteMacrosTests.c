@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <avrframework/ByteMacros.h>
+#include <avrframework/macros/ByteMacros.h>
 #include <avrframework/types/TByte.h>
 
 #include <cmocka.h>
@@ -19,10 +19,10 @@ static void ByteMacrosShouldSetRequestedBitsInByte(void** state)
 {
     (void) state;
     TByte testedByte = 0b00000000;
-    SET_BIT(testedByte, 0);
-    SET_BIT(testedByte, 2);
-    SET_BIT(testedByte, 3);
-    SET_BIT(testedByte, 7);
+    BYTE_SET_BIT(testedByte, 0);
+    BYTE_SET_BIT(testedByte, 2);
+    BYTE_SET_BIT(testedByte, 3);
+    BYTE_SET_BIT(testedByte, 7);
     assert_int_equal(testedByte, 0b10001101);
 }
 
@@ -30,10 +30,10 @@ static void ByteMacrosShouldClearRequestedBitsInByte(void** state)
 {
     (void) state;
     TByte testedByte = 0b11111111;
-    CLEAR_BIT(testedByte, 1);
-    CLEAR_BIT(testedByte, 5);
-    CLEAR_BIT(testedByte, 6);
-    CLEAR_BIT(testedByte, 7);
+    BYTE_CLEAR_BIT(testedByte, 1);
+    BYTE_CLEAR_BIT(testedByte, 5);
+    BYTE_CLEAR_BIT(testedByte, 6);
+    BYTE_CLEAR_BIT(testedByte, 7);
     assert_int_equal(testedByte, 0b00011101);
 }
 
@@ -41,28 +41,28 @@ static void ByteMacrosShouldReturnCorrectBoolStatusesForIsBitSet(void** state)
 {
     (void) state;
     TByte testedByte = 0b00110011;
-    assert_true(IS_BIT_SET(testedByte, 0));
-    assert_true(IS_BIT_SET(testedByte, 1));
-    assert_false(IS_BIT_SET(testedByte, 2));
-    assert_false(IS_BIT_SET(testedByte, 3));
-    assert_true(IS_BIT_SET(testedByte, 4));
-    assert_true(IS_BIT_SET(testedByte, 5));
-    assert_false(IS_BIT_SET(testedByte, 6));
-    assert_false(IS_BIT_SET(testedByte, 7));
+    assert_true(BYTE_IS_BIT_SET(testedByte, 0));
+    assert_true(BYTE_IS_BIT_SET(testedByte, 1));
+    assert_false(BYTE_IS_BIT_SET(testedByte, 2));
+    assert_false(BYTE_IS_BIT_SET(testedByte, 3));
+    assert_true(BYTE_IS_BIT_SET(testedByte, 4));
+    assert_true(BYTE_IS_BIT_SET(testedByte, 5));
+    assert_false(BYTE_IS_BIT_SET(testedByte, 6));
+    assert_false(BYTE_IS_BIT_SET(testedByte, 7));
 }
 
 static void ByteMacrosShouldReturnCorrectBoolStatusesForIsBitCleared(void** state)
 {
     (void) state;
     TByte testedByte = 0b00110011;
-    assert_false(IS_BIT_CLEARED(testedByte, 0));
-    assert_false(IS_BIT_CLEARED(testedByte, 1));
-    assert_true(IS_BIT_CLEARED(testedByte, 2));
-    assert_true(IS_BIT_CLEARED(testedByte, 3));
-    assert_false(IS_BIT_CLEARED(testedByte, 4));
-    assert_false(IS_BIT_CLEARED(testedByte, 5));
-    assert_true(IS_BIT_CLEARED(testedByte, 6));
-    assert_true(IS_BIT_CLEARED(testedByte, 7));
+    assert_false(BYTE_IS_BIT_CLEARED(testedByte, 0));
+    assert_false(BYTE_IS_BIT_CLEARED(testedByte, 1));
+    assert_true(BYTE_IS_BIT_CLEARED(testedByte, 2));
+    assert_true(BYTE_IS_BIT_CLEARED(testedByte, 3));
+    assert_false(BYTE_IS_BIT_CLEARED(testedByte, 4));
+    assert_false(BYTE_IS_BIT_CLEARED(testedByte, 5));
+    assert_true(BYTE_IS_BIT_CLEARED(testedByte, 6));
+    assert_true(BYTE_IS_BIT_CLEARED(testedByte, 7));
 }
 
 int main(void)

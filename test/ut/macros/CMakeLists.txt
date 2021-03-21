@@ -6,5 +6,14 @@
 
 message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
-add_subdirectory(macros)
-add_subdirectory(types)
+add_cmocka_test(UT_MACROS_BYTEMACROSTESTS
+    SOURCES ByteMacrosTests.c
+    LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})
+
+add_cmocka_test(UT_MACROS_GPIOMACROSTESTS
+    SOURCES GpioMacrosTests.c
+    LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})
+
+add_cmocka_test(UT_MACROS_IOMACROSTESTS
+    SOURCES IOMacrosTests.c
+    LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})

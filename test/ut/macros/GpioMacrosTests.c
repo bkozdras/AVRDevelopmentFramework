@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <avrframework/GpioMacros.h>
+#include <avrframework/macros/GpioMacros.h>
 #include <avrframework/types/TMcuRegister.h>
 
 #include <cmocka.h>
