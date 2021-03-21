@@ -13,8 +13,6 @@
 #include <avrframework/types/TBitNumber.h>
 #include <avrframework/types/TByte.h>
 #include <avrframework/types/TMcuRegister.h>
-#include <avrframework/types/TPin.h>
 #include <avrframework/types/TPinNumber.h>
-#include <avrframework/types/TPort.h>
 
 #endif // AVRFRAMEWORK_TYPES_ALLTYPES_H_

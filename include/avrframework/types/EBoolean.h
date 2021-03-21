@@ -8,10 +8,12 @@
 #ifndef AVRFRAMEWORK_TYPES_EBOOLEAN_H_
 #define AVRFRAMEWORK_TYPES_EBOOLEAN_H_
 
-typedef enum _EBoolean
+typedef enum __attribute__((__packed__)) _EBoolean
 {
     EBoolean_False = 0,
     EBoolean_True  = 1
 } EBoolean;
+
+_Static_assert(sizeof(EBoolean) == sizeof(uint8_t));
 
 #endif // AVRFRAMEWORK_TYPES_EBOOLEAN_H_

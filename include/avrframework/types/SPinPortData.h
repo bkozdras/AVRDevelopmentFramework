@@ -8,13 +8,13 @@
 #ifndef AVRFRAMEWORK_TYPES_SPINPORTDATA_H_
 #define AVRFRAMEWORK_TYPES_SPINPORTDATA_H_
 
+#include <avrframework/types/TMcuRegister.h>
 #include <avrframework/types/TPinNumber.h>
-#include <avrframework/types/TPort.h>
 
 typedef struct _SPinPortData
 {
-    volatile TPort* port;
-    TPinNumber pinNumber;
+    volatile TMcuRegister* port;
+    TPinNumber pin;
 } SPinPortData;
 
 #endif // AVRFRAMEWORK_TYPES_SPINPORTDATA_H_
