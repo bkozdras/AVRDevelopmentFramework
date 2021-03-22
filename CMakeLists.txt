@@ -25,13 +25,18 @@ message(STATUS "This architecture \(used for tests\): ${THIS_ARCH}")
 
 enable_language(C)
 
-include_directories(include)
+set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(HEADERS_DIR ${INCLUDE_DIR}/avrframework)
+include_directories(${INCLUDE_DIR})
 
 if (BUILD_LIBRARY)
     add_subdirectory(src)
 endif (BUILD_LIBRARY)
 
 if (BUILD_STUB_LIBRARY)
+    set(STUB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stub)
+    set(STUB_HEADERS_DIR ${STUB_INCLUDE_DIR}/avrframeworkstub)
+    include_directories(${STUB_INCLUDE_DIR})
     add_subdirectory(stub)
 endif (BUILD_STUB_LIBRARY)
 

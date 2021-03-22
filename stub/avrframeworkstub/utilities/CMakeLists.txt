@@ -8,15 +8,15 @@ message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
 set(PACKAGE_NAME "utilities")
 
-project(AVR_FRAMEWORK_${PACKAGE_NAME} C)
+project(AVR_FRAMEWORK_STUB_${PACKAGE_NAME} C)
 
 add_library(${PROJECT_NAME} OBJECT)
 
 target_sources(${PROJECT_NAME}
     PUBLIC
-        ${HEADERS_DIR}/${PACKAGE_NAME}/RegisterOperations.h
+        ${STUB_HEADERS_DIR}/${PACKAGE_NAME}/RegisterOperations.h
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/RegisterOperations.c)
 
 target_include_directories(${PROJECT_NAME}
-    PUBLIC ${INCLUDE_DIR})
+    PUBLIC ${INCLUDE_DIRS} ${STUB_INCLUDE_DIR})

@@ -6,17 +6,13 @@
 
 message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
-set(PACKAGE_NAME "utilities")
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 
-project(AVR_FRAMEWORK_${PACKAGE_NAME} C)
-
-add_library(${PROJECT_NAME} OBJECT)
-
-target_sources(${PROJECT_NAME}
-    PUBLIC
-        ${HEADERS_DIR}/${PACKAGE_NAME}/RegisterOperations.h
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/RegisterOperations.c)
-
-target_include_directories(${PROJECT_NAME}
-    PUBLIC ${INCLUDE_DIR})
+add_cmocka_test(UT_UTILITIES_REGISTEROPERATIONS_TESTS
+    SOURCES RegisterOperationsTests.c
+    COMPILE_OPTIONS -D_DEFAULT_SOURCE
+    LINK_LIBRARIES
+        ${CMOCKA_STATIC_LIBRARY}
+        ${AVRFRAMEWORK_STATIC_LIBRARY}
+        Threads::Threads)

@@ -8,3 +8,4 @@ message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
 add_subdirectory(macros)
 add_subdirectory(types)
+add_subdirectory(utilities)
