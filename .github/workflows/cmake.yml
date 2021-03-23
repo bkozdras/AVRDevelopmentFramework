@@ -26,5 +26,5 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deallocate self-hosted runner
         run: |
-          az vm deallocate -g ci-rg -n ci-runner --no-wait
+          az vm deallocate -g ci-rg -n github-ci-runner --no-wait
   
