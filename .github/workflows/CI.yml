@@ -21,8 +21,6 @@ jobs:
     needs: start-azure-runner
     steps:
       - uses: actions/checkout@main
-        with:
-          submodules: `true`
       - shell: bash
       - name: Checkout / clone GitHub repo
         run: |
