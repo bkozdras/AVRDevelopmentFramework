@@ -1,0 +1,4 @@
+[submodule "docker"]
+    path = docker
+    url = git@github.com:bkozdras/docker-avr-build-env.git
+    branch = main
