@@ -21,7 +21,6 @@ jobs:
     needs: start-azure-runner
     steps:
       - uses: actions/checkout@main
-      - shell: bash
       - name: Checkout / clone GitHub repo
         run: |
           echo "Cloning repository..."
@@ -38,7 +37,7 @@ jobs:
       - name: (Re)build docker image from Dockerfile
         working-directory: docker
         run: |
-          echo "Running example command in container..." |
+          echo "Test example command in container..." |
           ls -la
 
   stop-azure-runner:
