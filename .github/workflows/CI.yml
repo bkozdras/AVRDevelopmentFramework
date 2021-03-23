@@ -16,23 +16,19 @@ jobs:
       - name: Start GitHub self-hosted runner
         run: |
           az vm start -g github-ci-resource-group -n github-ci-runner
-  checkout-repo:
+  build-avr-build-env-image:
     runs-on: [self-hosted, Azure, Docker]
     needs: start-azure-runner
     steps:
       - name: Checkout / clone GitHub repo
         uses: actions/checkout@main
-  build-avr-build-env-image:
-    runs-on: [self-hosted, Azure, Docker]
-    needs: checkout-repo
-    steps:
       - name: Login to DockerHub
-        uses: docker/login-action@main
+        uses: docker/login-action@master
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: "Build image from Dockerfile"
-        uses: docker/build-push-action@main
+        uses: docker/build-push-action@master
         with:
           context: .
           file: docker/Dockerfile
@@ -42,8 +38,10 @@ jobs:
     runs-on: [self-hosted, Azure, Docker]
     needs: build-avr-build-env-image
     steps:
+      - name: Checkout / clone GitHub repo
+        uses: actions/checkout@main
       - name: "Run example command in avr-build-env"
-        uses: addnab/docker-run-action@main
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -54,15 +52,14 @@ jobs:
             ./buildUT.sh
   stop-azure-runner:
     runs-on: ubuntu-latest
-    needs: run-UT-in-avr-build-env
-    steps:
-      - name: Login to Azure
-        if: ${{ always() }}
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Stop GitHub self-hosted runner
-        if: ${{ always() }}
-        run: |
-          az vm deallocate -g github-ci-resource-group -n github-ci-runner --no-wait
+    needs: [build-avr-build-env-image, run-UT-in-avr-build-env]
+    if: always
+      steps:
+        - name: Login to Azure
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+        - name: Stop GitHub self-hosted runner
+          run: |
+            az vm deallocate -g github-ci-resource-group -n github-ci-runner --no-wait
   
