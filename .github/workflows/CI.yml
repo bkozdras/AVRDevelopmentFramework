@@ -1,0 +1,57 @@
+name: AVR-Framework-CI
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  start-azure-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Start GitHub self-hosted runner
+        run: |
+          az vm start -g github-ci-resource-group -n github-ci-runner
+  checkout-repo:
+    runs-on: [self-hosted, Azure, Docker]
+    needs: start-azure-runner
+    steps:
+      - uses: actions/checkout@main
+        with:
+          submodules: `true`
+      - shell: bash
+      - name: Checkout / clone GitHub repo
+        run: |
+          echo "Cloning repository..."
+  build-and-start-docker-image-with-env:
+    runs-on: [self-hosted, Azure, Docker]
+    needs: checkout-repo
+    steps:
+      - uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: bkozdras/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspace
+      - name: (Re)build docker image from Dockerfile
+        working-directory: docker
+        run: |
+          echo "Running example command in container..." |
+          ls -la
+
+  stop-azure-runner:
+    runs-on: ubuntu-latest
+    needs: build-and-start-docker-image-with-env
+    steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Stop GitHub self-hosted runner
+        run: |
+          az vm deallocate -g github-ci-resource-group -n github-ci-runner --no-wait
+  
