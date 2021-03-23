@@ -22,8 +22,6 @@ jobs:
     steps:
       - name: Checkout / clone GitHub repo
         uses: actions/checkout@main
-        run: |
-          echo "Cloning repository..."
   build-avr-build-env-image:
     runs-on: [self-hosted, Azure, Docker]
     needs: checkout-repo
