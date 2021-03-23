@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout / clone GitHub repo
         uses: actions/checkout@main
+        with:
+          submodules: true
       - name: "Build image from Dockerfile"
         run: docker --log-level=debug build . --file=docker/Dockerfile --tag my-user/avr-framework:latest
   run-UT-in-avr-framework-container:
@@ -30,6 +32,8 @@ jobs:
     steps:
       - name: Checkout / clone GitHub repo
         uses: actions/checkout@main
+        with:
+          submodules: true
       - name: "Run example command in avr-build-env"
         uses: addnab/docker-run-action@v3
         with:
