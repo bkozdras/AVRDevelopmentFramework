@@ -25,7 +25,6 @@ jobs:
   build-avr-build-env-image:
     runs-on: [self-hosted, Azure, Docker]
     needs: checkout-repo
-    working-directory: docker
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@main
@@ -36,7 +35,7 @@ jobs:
         uses: docker/build-push-action@main
         with:
           context: .
-          file: Dockerfile
+          file: docker/Dockerfile
           push: false
           tags: bkozdras/avr-build-env:latest
   run-UT-in-avr-build-env:
