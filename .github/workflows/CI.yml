@@ -20,13 +20,14 @@ jobs:
     runs-on: [self-hosted, Azure, Docker]
     needs: start-azure-runner
     steps:
-      - uses: actions/checkout@main
       - name: Checkout / clone GitHub repo
+        uses: actions/checkout@main
         run: |
           echo "Cloning repository..."
   build-avr-build-env-image:
     runs-on: [self-hosted, Azure, Docker]
     needs: checkout-repo
+    working-directory: docker
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@main
@@ -34,7 +35,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: "Build image from Dockerfile"
-        working-directory: docker
         uses: docker/build-push-action@main
         with:
           context: .
