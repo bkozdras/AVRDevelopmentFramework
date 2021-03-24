@@ -1,5 +1,16 @@
 # AVR projects - Development Framework
-[![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![Languages](https://img.shields.io/github/languages/count/bkozdras/avr-framework?label=Languages)](LANGUAGES)
+[![TopLanguage](https://img.shields.io/github/languages/top/bkozdras/avr-framework)](TOPLANGUAGE)
+[![CodeSize](https://img.shields.io/github/languages/code-size/bkozdras/avr-framework?label=Code%20Size)](CODESIZE)
+[![RepoSize](https://img.shields.io/github/repo-size/bkozdras/avr-framework?label=Repo%20Size)](REPOSIZE)
+
+[![LibraryLanguage](https://img.shields.io/badge/Language-C-lightgrey)](LIBRARYLANGUAGE)
+[![TestFramework](https://img.shields.io/badge/Test%20Framework-CMocka-lightgrey)](SOURCELANGUAGE)
+
+[![OS](https://img.shields.io/badge/OS-Linux-lightgrey)](OS)
+[![Distribution](https://img.shields.io/badge/Distribution-Ubuntu20.04LTS-lightgrey)](DISTRIBUTION)
+[![BuildEnvironment](https://img.shields.io/badge/Build%20Environment-Docker-lightgrey)](SOURCELANGUAGE)
 
 # CI Dashboard
 
