@@ -3,6 +3,8 @@
 
 # CI Dashboard
 
+[![CIStatus](https://img.shields.io/github/workflow/status/bkozdras/avr-framework/avr-framework-ci?label=CI%20Status)](CISTATUS)
+
 TODO
 
 # Overview

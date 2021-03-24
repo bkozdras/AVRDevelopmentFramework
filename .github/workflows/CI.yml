@@ -1,4 +1,4 @@
-name: AVR-Framework-CI
+name: avr-framework-ci
 on:
   push:
     paths-ignore:
