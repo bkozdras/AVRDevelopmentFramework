@@ -1,10 +1,5 @@
 # AVR projects - Development Framework
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
-[![Languages](https://img.shields.io/github/languages/count/bkozdras/avr-framework?label=Languages)](LANGUAGES)
-[![TopLanguage](https://img.shields.io/github/languages/top/bkozdras/avr-framework)](TOPLANGUAGE)
-[![CodeSize](https://img.shields.io/github/languages/code-size/bkozdras/avr-framework?label=CodeSize)](CODESIZE)
-[![RepoSize](https://img.shields.io/github/repo-size/bkozdras/avr-framework?label=Repo%20Size)](REPOSIZE)
-
 [![LibraryLanguage](https://img.shields.io/badge/Language-C-lightgrey)](LIBRARYLANGUAGE)
 [![TestFramework](https://img.shields.io/badge/TestFramework-CMocka-lightgrey)](TESTFRAMEWORK)
 
