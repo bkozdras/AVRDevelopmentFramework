@@ -36,9 +36,6 @@ jobs:
           chmod +x ${{ github.workspace }}/ci/ut/runCMake.sh
           chmod +x ${{ github.workspace }}/ci/ut/runCTest.sh
           chmod +x ${{ github.workspace }}/ci/ut/runMake.sh
-      - name: "Create file with build"
-        run: |
-          mkdir -p buildCI
       - name: "Check docker container availability"
         uses: addnab/docker-run-action@v3
         with:
@@ -48,6 +45,16 @@ jobs:
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
             echo "Executed in docker container. Test: OK!"
+      - name: "Create directory for build artifacts"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT
+            mkdir -p buildCI
       - name: "Run CMake for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -58,6 +65,18 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runCMake.sh
+      - name: Cleanup artificats for failure on running CMake for UT"
+        if: ${{ failure() }}
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT
+            rm -r -f buildCI
+            exit -1
       - name: "Run Make for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -68,6 +87,18 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runMake.sh
+      - name: Cleanup artificats for failure on running Make for UT"
+        if: ${{ failure() }}
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT
+            rm -r -f buildCI
+            exit -1
       - name: "Run CTest for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -78,6 +109,28 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runCTest.sh
+      - name: Cleanup artificats for failure on running Make for UT"
+        if: ${{ failure() }}
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT
+            rm -r -f buildCI
+            exit -1
+      - name: "Cleanup build artifacts after successful run"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT
+            rm -r -f buildCI
   stop-azure-runner:
     runs-on: ubuntu-latest
     needs: [build-avr-framework-docker-image, run-UT-in-avr-framework-container]

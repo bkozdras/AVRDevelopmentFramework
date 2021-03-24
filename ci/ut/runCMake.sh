@@ -21,8 +21,17 @@ then
 fi
 
 cmake \
+    -DCMAKE_C_COMPILER=gcc-$GCC_MAJOR_VERSION \
+    -DCMAKE_CXX_COMPILER=g++-$GCC_MAJOR_VERSION \
     -DAVR_FRAMEWORK_BUILD_LIBRARY_STATIC=ON \
     -DAVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC=ON \
-    -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON .. \
+    -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON ..
+
+if [ $? -ne 0 ]
+then
+    echo "Failure in cmake. Cleaning up directory..."
+    rm -r -f *
+    exit -1
+fi
 
 exit 0

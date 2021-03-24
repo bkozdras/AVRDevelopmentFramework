@@ -16,4 +16,11 @@ fi
 
 ctest -j$(nproc --all) --output-on-failure --timeout 5
 
+if [ $? -ne 0 ]
+then
+    echo "Failure in ctest. Cleaning up directory..."
+    rm -r -f *
+    exit -1
+fi
+
 exit 0

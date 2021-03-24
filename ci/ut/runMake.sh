@@ -22,4 +22,11 @@ fi
 
 make -j$(nproc --all)
 
+if [ $? -ne 0 ]
+then
+    echo "Failure in make. Cleaning up directory..."
+    rm -r -f *
+    exit -1
+fi
+
 exit 0
