@@ -43,7 +43,7 @@ jobs:
           shell: bash
           options: -v ${{ github.workspace }}:/workspace
           run: |
-            /workspace/buildUT.sh
+            chmod+x /workspace/buildUT.sh && /workspace/buildUT.sh
   stop-azure-runner:
     runs-on: ubuntu-latest
     needs: [build-avr-framework-docker-image, run-UT-in-avr-framework-container]
