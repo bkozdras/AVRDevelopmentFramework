@@ -34,16 +34,27 @@ jobs:
         uses: actions/checkout@main
         with:
           submodules: true
+      - name: Set executable privileges to ${{ github.workspace }}/buildUT.sh
+        run: |
+          chmod +x ${{ github.workspace }}/buildUT.sh
       - name: "Run example command in avr-build-env"
         uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           image: my-user/avr-framework:latest
-          shell: bash
           options: -v ${{ github.workspace }}:/workspace
           run: |
-            chmod+x /workspace/buildUT.sh && /workspace/buildUT.sh
+            cd workspace
+            ls -la
+            THIS_ARCH=$(uname -m | tr -d '\n')
+            mkdir -p build_$THIS_ARCH
+            cd build_$THIS_ARCH
+            cmake \
+              -DAVR_FRAMEWORK_BUILD_LIBRARY_STATIC=ON \
+              -DAVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC=ON
+              -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON ..
+            chmod +x ../buildUT.sh
   stop-azure-runner:
     runs-on: ubuntu-latest
     needs: [build-avr-framework-docker-image, run-UT-in-avr-framework-container]
