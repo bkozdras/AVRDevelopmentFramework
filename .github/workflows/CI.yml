@@ -6,8 +6,19 @@ on:
       - 'LICENSE'
       - '.gitignore'
 jobs:
+  wait-for-previous-workflow-finished:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: "Block concurrent workflow executions"
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   set-unknown-state-badges-for-CI:
     runs-on: ubuntu-latest
+    needs: wait-for-previous-workflow-finished
     steps:
       - name: "Create badge BuildDockerImage with unknown state"
         uses: schneegans/dynamic-badges-action@v1.0.0
@@ -103,7 +114,7 @@ jobs:
           label: Build
           message: failing
           color: red
-  build-avr-framework-for-avr-target-with-example-executables:
+  build-avr-framework-for-avr-target-with-example-executables-in-container:
     runs-on: [self-hosted, Azure, Docker]
     needs: build-avr-framework-docker-image
     steps:
@@ -113,8 +124,8 @@ jobs:
           submodules: true
       - name: Set executable privileges to CI run scripts
         run: |
-          chmod +x ${{ github.workspace }}/ci/avr/runCMake.sh
-          chmod +x ${{ github.workspace }}/ci/avr/runMake.sh
+          chmod +x ${{ github.workspace }}/ci/avrlib/runCMake.sh
+          chmod +x ${{ github.workspace }}/ci/avrlib/runMake.sh
       - name: "Check docker container availability"
         uses: addnab/docker-run-action@v3
         with:
@@ -143,7 +154,7 @@ jobs:
           options: -v ${{ github.workspace }}:/workspaceAVR
           run: |
             cd workspaceAVR/build_AVR
-            bash ../ci/avr/runCMake.sh
+            bash ../ci/avrlib/runCMake.sh
       - name: "Create badge AVRLibCmake with passing state"
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -172,7 +183,7 @@ jobs:
           options: -v ${{ github.workspace }}:/workspaceAVR
           run: |
             cd workspaceAVR/build_AVR
-            bash ../ci/avr/runMake.sh
+            bash ../ci/avrlib/runMake.sh
       - name: "Create badge AVRLibBuild with passing state"
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -335,7 +346,7 @@ jobs:
             rm -r -f build_UT_x86_64
   stop-azure-runner:
     runs-on: ubuntu-latest
-    needs: [build-avr-framework-docker-image, build-avr-framework-for-avr-target-with-example-executables, run-UT-in-avr-framework-container]
+    needs: [build-avr-framework-docker-image, build-avr-framework-for-avr-target-with-example-executables-in-container, run-UT-in-avr-framework-container]
     if: ${{ always() }}
     steps:
       - name: Login to Azure
