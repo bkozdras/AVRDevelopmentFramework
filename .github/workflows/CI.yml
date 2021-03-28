@@ -6,8 +6,48 @@ on:
       - 'LICENSE'
       - '.gitignore'
 jobs:
-  start-azure-runner:
+  set-unknown-state-badges-for-CI:
     runs-on: ubuntu-latest
+    steps:
+      - name: "Create badge BuildDockerImage with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeBuildDockerImage.json
+          label: Build
+          message: unknown
+          color: grey
+      - name: "Create badge UTX8664Cmake with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Cmake.json
+          label: CMake
+          message: unknown
+          color: grey
+      - name: "Create badge UTX8664Build with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Build.json
+          label: Make-Build
+          message: unknown
+          color: grey
+      - name: "Create badge UTX8664CTest with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664CTest.json
+          label: CTest
+          message: unknown
+          color: grey
+  set-unknown-state-badges-for-CI:
+    runs-on: ubuntu-latest
+    needs: setInitialBadgesForCI
     steps:
       - name: Login to Azure
         uses: azure/login@v1
@@ -26,6 +66,24 @@ jobs:
           submodules: true
       - name: "Build image from Dockerfile"
         run: docker --log-level=debug build . --file=docker/Dockerfile --tag my-user/avr-framework:latest
+      - name: "Create badge BuildDockerImage with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeBuildDockerImage.json
+          label: Build
+          message: passing
+          color: green
+      - name: "Create badge BuildDockerImage with failing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeBuildDockerImage.json
+          label: Build
+          message: failing
+          color: red
   run-UT-in-avr-framework-container:
     runs-on: [self-hosted, Azure, Docker]
     needs: build-avr-framework-docker-image
@@ -68,6 +126,25 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runCMake.sh
+      - name: "Create badge UTX8664Cmake with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Cmake.json
+          label: CMake
+          message: passing
+          color: green
+      - name: "Create badge UTX8664Cmake with passing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Cmake.json
+          label: CMake
+          message: failing
+          color: red
       - name: "Run Make for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -78,6 +155,25 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runMake.sh
+      - name: "Create badge UTX8664Build with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Build.json
+          label: Make-Build
+          message: passing
+          color: green
+      - name: "Create badge UTX8664Build with passing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Build.json
+          label: Make-Build
+          message: failing
+          color: red
       - name: "Run CTest for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -88,18 +184,25 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runCTest.sh
-      - name: Cleanup artificats for failure on running Make for UT"
-        if: ${{ failure() }}
-        uses: addnab/docker-run-action@v3
+      - name: "Create badge UTX8664CTest with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image: my-user/avr-framework:latest
-          options: -v ${{ github.workspace }}:/workspaceUT
-          run: |
-            cd workspaceUT
-            rm -r -f buildCI
-            exit -1
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664CTest.json
+          label: CTest
+          message: passing
+          color: green
+      - name: "Create badge UTX8664CTest with passing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664CTest.json
+          label: CTest
+          message: failing
+          color: red
       - name: "Cleanup build artifacts"
         if: ${{ always() }}
         uses: addnab/docker-run-action@v3
