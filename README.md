@@ -9,7 +9,7 @@
 
 # CI Dashboard
 
-[![CIStatus](https://img.shields.io/github/workflow/status/bkozdras/avr-framework/avr-framework-ci?label=CI%20Status?service=github)](CISTATUS)
+[![CIStatus](https://img.shields.io/github/workflow/status/bkozdras/avr-framework/avr-framework-ci?label=CI%20Status)](CISTATUS)
 
 [![JobBuildDockerImage](https://img.shields.io/badge/Job-Build--Docker--Image-lightgrey)](JOBBUILDOCKERIMAGE)
 
