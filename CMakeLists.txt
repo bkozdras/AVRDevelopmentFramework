@@ -19,6 +19,7 @@ include(cmake/ParseOptions.cmake)
 if (BUILD_FOR_TARGET)
     include(cmake/SetTargetOptions.cmake)
     include(cmake/GenericAvrCMake.cmake)
+    include(cmake/CopyAvrLibcIncludes.cmake)
 endif (BUILD_FOR_TARGET)
 
 set(PROJECT_NAME AvrDevelopmentFramework)
