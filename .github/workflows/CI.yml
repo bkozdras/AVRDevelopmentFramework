@@ -164,7 +164,7 @@ jobs:
           label: CMake
           message: passing
           color: green
-      - name: "Create badge AVRLibCmake with passing state"
+      - name: "Create badge AVRLibCmake with failing state"
         if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -193,7 +193,7 @@ jobs:
           label: Make-Build
           message: passing
           color: green
-      - name: "Create badge AVRLibBuild with passing state"
+      - name: "Create badge AVRLibBuild with failing state"
         if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -265,7 +265,7 @@ jobs:
           label: CMake
           message: passing
           color: green
-      - name: "Create badge UTX8664Cmake with passing state"
+      - name: "Create badge UTX8664Cmake with failing state"
         if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -294,7 +294,7 @@ jobs:
           label: Make-Build
           message: passing
           color: green
-      - name: "Create badge UTX8664Build with passing state"
+      - name: "Create badge UTX8664Build with failing state"
         if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -323,7 +323,7 @@ jobs:
           label: CTest
           message: passing
           color: green
-      - name: "Create badge UTX8664CTest with passing state"
+      - name: "Create badge UTX8664CTest with failing state"
         if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
