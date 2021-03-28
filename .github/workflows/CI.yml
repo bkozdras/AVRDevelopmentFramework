@@ -68,18 +68,6 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runCMake.sh
-      - name: Cleanup artificats for failure on running CMake for UT"
-        if: ${{ failure() }}
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image: my-user/avr-framework:latest
-          options: -v ${{ github.workspace }}:/workspaceUT
-          run: |
-            cd workspaceUT
-            rm -r -f buildCI
-            exit -1
       - name: "Run Make for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -90,18 +78,6 @@ jobs:
           run: |
             cd workspaceUT/buildCI
             bash ../ci/ut/runMake.sh
-      - name: Cleanup artificats for failure on running Make for UT"
-        if: ${{ failure() }}
-        uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image: my-user/avr-framework:latest
-          options: -v ${{ github.workspace }}:/workspaceUT
-          run: |
-            cd workspaceUT
-            rm -r -f buildCI
-            exit -1
       - name: "Run CTest for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -124,7 +100,8 @@ jobs:
             cd workspaceUT
             rm -r -f buildCI
             exit -1
-      - name: "Cleanup build artifacts after successful run"
+      - name: "Cleanup build artifacts"
+        if: ${{ always() }}
         uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
