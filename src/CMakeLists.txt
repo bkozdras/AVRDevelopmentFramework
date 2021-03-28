@@ -15,7 +15,7 @@ if (BUILD_STATIC_LIBRARY)
         avrframework-static
         CACHE INTERNAL "AVR framework static library")
 endif (BUILD_STATIC_LIBRARY)
-
+fdsfgsdgd
 if (BUILD_SHARED_LIBRARY)
     set(AVRFRAMEWORK_SHARED_LIBRARY
         avrframework
