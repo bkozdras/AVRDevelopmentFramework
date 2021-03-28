@@ -76,6 +76,7 @@ jobs:
           message: passing
           color: green
       - name: "Create badge BuildDockerImage with failing state"
+        if: ${{ failure() }}
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
           auth: ${{ secrets.GIST_CI_TOKEN }}
