@@ -14,6 +14,6 @@ typedef enum __attribute__((__packed__)) _EBoolean
     EBoolean_True  = 1
 } EBoolean;
 
-_Static_assert(sizeof(EBoolean) == sizeof(uint8_t));
+_Static_assert(sizeof(EBoolean) == sizeof(uint8_t), L"EBoolean size");
 
 #endif // AVRFRAMEWORK_TYPES_EBOOLEAN_H_

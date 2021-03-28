@@ -7,9 +7,9 @@
 #!/bin/bash
 
 THIS_DIR_NAME=${PWD##*/}
-if [ "$THIS_DIR_NAME" != "buildCI" ]
+if [ "$THIS_DIR_NAME" != "build_UT_x86_64" ]
 then
-    echo "ERROR: CI pipeline issue! This script (runCTest.sh) should be executed from buildCI directory!"
+    echo "ERROR: CI pipeline issue! This script (runCTest.sh) should be executed from build_UT_x86_64 directory!"
     echo "This directory: $THIS_DIR_NAME"
     exit -1
 fi

@@ -8,7 +8,7 @@ message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
 project(AvrFrameworkLibrary C)
 
-add_compile_options(-std=c11)
+add_compile_options(-std=gnu99)
 
 if (BUILD_STATIC_LIBRARY)
     set(AVRFRAMEWORK_STATIC_LIBRARY

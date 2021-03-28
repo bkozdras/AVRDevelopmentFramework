@@ -45,6 +45,24 @@ jobs:
           label: CTest
           message: unknown
           color: grey
+      - name: "Create badge AVRLibCmake with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: AVRLibCmake.json
+          label: CMake
+          message: unknown
+          color: grey
+      - name: "Create badge AVRLibBuild with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: AVRLibBuild.json
+          label: Make-Build
+          message: unknown
+          color: grey
   start-azure-runner:
     runs-on: ubuntu-latest
     needs: set-unknown-state-badges-for-CI
@@ -85,6 +103,106 @@ jobs:
           label: Build
           message: failing
           color: red
+  build-avr-framework-for-avr-target-with-example-executables:
+    runs-on: [self-hosted, Azure, Docker]
+    needs: build-avr-framework-docker-image
+    steps:
+      - name: Checkout / clone GitHub repo
+        uses: actions/checkout@main
+        with:
+          submodules: true
+      - name: Set executable privileges to CI run scripts
+        run: |
+          chmod +x ${{ github.workspace }}/ci/avr/runCMake.sh
+          chmod +x ${{ github.workspace }}/ci/avr/runMake.sh
+      - name: "Check docker container availability"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            echo "Executed in docker container. Test: OK!"
+      - name: "Create directory for build artifacts"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceAVR
+          run: |
+            cd workspaceAVR
+            mkdir -p build_AVR
+      - name: "Run CMake for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceAVR
+          run: |
+            cd workspaceAVR/build_AVR
+            bash ../ci/avr/runCMake.sh
+      - name: "Create badge AVRLibCmake with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeAVRLibCmake.json
+          label: CMake
+          message: passing
+          color: green
+      - name: "Create badge AVRLibCmake with passing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeAVRLibCmake.json
+          label: CMake
+          message: failing
+          color: red
+      - name: "Run Make for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceAVR
+          run: |
+            cd workspaceAVR/build_AVR
+            bash ../ci/avr/runMake.sh
+      - name: "Create badge AVRLibBuild with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeAVRLibBuild.json
+          label: Make-Build
+          message: passing
+          color: green
+      - name: "Create badge AVRLibBuild with passing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeAVRLibBuild.json
+          label: Make-Build
+          message: failing
+          color: red
+      - name: "Cleanup build artifacts"
+        if: ${{ always() }}
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceAVR
+          run: |
+            cd workspaceAVR
+            rm -r -f build_AVR
   run-UT-in-avr-framework-container:
     runs-on: [self-hosted, Azure, Docker]
     needs: build-avr-framework-docker-image
@@ -116,7 +234,7 @@ jobs:
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
             cd workspaceUT
-            mkdir -p buildCI
+            mkdir -p build_UT_x86_64
       - name: "Run CMake for UT"
         uses: addnab/docker-run-action@v3
         with:
@@ -125,7 +243,7 @@ jobs:
           image: my-user/avr-framework:latest
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
-            cd workspaceUT/buildCI
+            cd workspaceUT/build_UT_x86_64
             bash ../ci/ut/runCMake.sh
       - name: "Create badge UTX8664Cmake with passing state"
         uses: schneegans/dynamic-badges-action@v1.0.0
@@ -154,7 +272,7 @@ jobs:
           image: my-user/avr-framework:latest
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
-            cd workspaceUT/buildCI
+            cd workspaceUT/build_UT_x86_64
             bash ../ci/ut/runMake.sh
       - name: "Create badge UTX8664Build with passing state"
         uses: schneegans/dynamic-badges-action@v1.0.0
@@ -183,7 +301,7 @@ jobs:
           image: my-user/avr-framework:latest
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
-            cd workspaceUT/buildCI
+            cd workspaceUT/build_UT_x86_64
             bash ../ci/ut/runCTest.sh
       - name: "Create badge UTX8664CTest with passing state"
         uses: schneegans/dynamic-badges-action@v1.0.0
@@ -214,10 +332,10 @@ jobs:
           options: -v ${{ github.workspace }}:/workspaceUT
           run: |
             cd workspaceUT
-            rm -r -f buildCI
+            rm -r -f build_UT_x86_64
   stop-azure-runner:
     runs-on: ubuntu-latest
-    needs: [build-avr-framework-docker-image, run-UT-in-avr-framework-container]
+    needs: [build-avr-framework-docker-image, build-avr-framework-for-avr-target-with-example-executables, run-UT-in-avr-framework-container]
     if: ${{ always() }}
     steps:
       - name: Login to Azure

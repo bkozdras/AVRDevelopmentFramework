@@ -15,6 +15,11 @@
 
 ![badgeBuildDockerImage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeBuildDockerImage.json?service=github)
 
+[![JobAVRLib](https://img.shields.io/badge/Job-AVR--lib-lightgrey)](JOBAVRLIB)
+
+![badgeAVRLibCMake](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeAVRLibCmake.json?service=github)
+![badgeAVRLibBuild](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeAVRLibBuild.json?service=github)
+
 [![JobUTX8664](https://img.shields.io/badge/Job-UT--x86--64-lightgrey)](JOBUTX8664)
 
 ![badgeUTX8664CMake](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664Cmake.json?service=github)
