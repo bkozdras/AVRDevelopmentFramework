@@ -50,7 +50,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_CI_TOKEN }}
           gistID: 536fc4300ff360bc55fbf7d1b618ef4c
-          filename: AVRLibCmake.json
+          filename: badgeAVRLibCmake.json
           label: CMake
           message: unknown
           color: grey
@@ -59,7 +59,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_CI_TOKEN }}
           gistID: 536fc4300ff360bc55fbf7d1b618ef4c
-          filename: AVRLibBuild.json
+          filename: badgeAVRLibBuild.json
           label: Make-Build
           message: unknown
           color: grey
