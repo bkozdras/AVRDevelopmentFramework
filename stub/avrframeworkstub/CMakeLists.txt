@@ -22,9 +22,15 @@ if (BUILD_SHARED_STUB_LIBRARY)
         CACHE INTERNAL "AVR framework shared library with stub for impl")
 endif (BUILD_SHARED_STUB_LIBRARY)
 
+add_subdirectory(avrlib)
+add_subdirectory(communication)
+add_subdirectory(microos)
 add_subdirectory(utilities)
 
 set(STUB_LIBRARIES
+    AVR_FRAMEWORK_STUB_avrlib
+    AVR_FRAMEWORK_STUB_communication
+    AVR_FRAMEWORK_STUB_microos
     AVR_FRAMEWORK_STUB_utilities)
 
 if (BUILD_STATIC_STUB_LIBRARY)

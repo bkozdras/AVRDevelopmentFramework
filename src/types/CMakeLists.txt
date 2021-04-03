@@ -19,6 +19,7 @@ target_sources(${PROJECT_NAME}
         ${HEADERS_DIR}/${PACKAGE_NAME}/SPinPortData.h
         ${HEADERS_DIR}/${PACKAGE_NAME}/TBitNumber.h
         ${HEADERS_DIR}/${PACKAGE_NAME}/TByte.h
+        ${HEADERS_DIR}/${PACKAGE_NAME}/TCallback.h
         ${HEADERS_DIR}/${PACKAGE_NAME}/TMcuRegister.h
         ${HEADERS_DIR}/${PACKAGE_NAME}/TPinNumber.h
 

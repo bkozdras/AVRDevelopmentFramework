@@ -22,7 +22,7 @@ void RegisterOperationsStub_setCallbackOnWaitForPinSet(
     onWaitForPinSetCallback_ = callback;
 }
 
-void RegisterOperationsStub_unsetCallbackOnWaitForPinSet()
+void RegisterOperationsStub_clearCallbackOnWaitForPinSet()
 {
     onWaitForPinSetCallback_ = NULL;
 }
@@ -33,7 +33,7 @@ void RegisterOperationsStub_setCallbackOnWaitForPinCleared(
     onWaitForPinClearedCallback_ = callback;
 }
 
-void RegisterOperationsStub_unsetCallbackOnWaitForPinCleared()
+void RegisterOperationsStub_clearCallbackOnWaitForPinCleared()
 {
     onWaitForPinClearedCallback_ = NULL;
 }
@@ -46,7 +46,7 @@ void RegisterOperations_waitForPinSet(const TMcuRegister* mcuRegister,
     assert(mcuRegister != NULL);
     if (onWaitForPinSetCallback_ != NULL)
     {
-        onWaitForPinSetCallback_(mcuRegister, bitNumber);
+        (*onWaitForPinSetCallback_)(mcuRegister, bitNumber);
     }
 }
 
@@ -56,6 +56,6 @@ void RegisterOperations_waitForPinCleared(const TMcuRegister* mcuRegister,
     assert(mcuRegister != NULL);
     if (onWaitForPinClearedCallback_ != NULL)
     {
-        onWaitForPinClearedCallback_(mcuRegister, bitNumber);
+        (*onWaitForPinClearedCallback_)(mcuRegister, bitNumber);
     }
 }

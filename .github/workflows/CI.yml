@@ -333,6 +333,41 @@ jobs:
           label: CTest
           message: failing
           color: red
+      - name: "Run Lcov for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: my-user/avr-framework:latest
+          options: -v ${{ github.workspace }}:/workspaceUT
+          run: |
+            cd workspaceUT/build_UT_x86_64
+            bash ../ci/ut/runLcov.sh
+      - name: "Create badge UTX8664Lcov with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Lcov.json
+          label: Lcov
+          message: passing
+          color: green
+      - name: "Create badge UTX8664Lcov with failing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664Lcov.json
+          label: Lcov
+          message: failing
+          color: red
+      - name: Publish lcov result on coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ${{ github.workspace }}/build_UT_x86_64/ut-code-coverage.info
+          flag-name: "AVR-Framework Unit Tests Coverage"
       - name: "Cleanup build artifacts"
         if: ${{ always() }}
         uses: addnab/docker-run-action@v3

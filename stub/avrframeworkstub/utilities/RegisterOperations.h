@@ -13,10 +13,10 @@
 
 void RegisterOperationsStub_setCallbackOnWaitForPinSet(
     void (*callback)(const TMcuRegister*, const TPinNumber));
-void RegisterOperationsStub_unsetCallbackOnWaitForPinSet();
+void RegisterOperationsStub_clearCallbackOnWaitForPinSet();
 
 void RegisterOperationsStub_setCallbackOnWaitForPinCleared(
     void (*callback)(const TMcuRegister*, const TPinNumber));
-void RegisterOperationsStub_unsetCallbackOnWaitForPinCleared();
+void RegisterOperationsStub_clearCallbackOnWaitForPinCleared();
 
 #endif // AVRFRAMEWORKSTUB_UTILITIES_REGISTEROPERATIONS_H_

@@ -25,6 +25,7 @@ mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 cmake \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_C_COMPILER=avr-gcc \
     -DCMAKE_CXX_COMPILER=avr-g++ \
     -DAVR_FRAMEWORK_BUILD_FOR_TARGET=ON \

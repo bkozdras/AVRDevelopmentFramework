@@ -6,6 +6,6 @@
 
 message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
-add_cmocka_test(UT_TYPES_TYPESTESTS
+add_cmocka_test(AVR_FRAMEWORK_UT_TYPES_TYPESTESTS
     SOURCES TypesTests.c
     LINK_LIBRARIES ${CMOCKA_STATIC_LIBRARY})

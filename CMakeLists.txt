@@ -32,18 +32,29 @@ message(STATUS "This architecture \(used for tests only\): ${THIS_ARCH}")
 
 enable_language(C)
 
+if (GENERATE_CODE_COVERAGE)
+    include(cmake/CodeCoverage.cmake)
+    append_coverage_compiler_flags()
+    add_compile_options(-O0)
+endif (GENERATE_CODE_COVERAGE)
+
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(HEADERS_DIR ${INCLUDE_DIR}/avrframework)
 include_directories(${INCLUDE_DIR})
+
+set(MOCK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/mock)
+set(MOCK_HEADERS_DIR ${MOCK_INCLUDE_DIR}/avrframeworkmock)
+include_directories(${MOCK_INCLUDE_DIR})
+
+set(STUB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stub)
+set(STUB_HEADERS_DIR ${STUB_INCLUDE_DIR}/avrframeworkstub)
+include_directories(${STUB_INCLUDE_DIR})
 
 if (BUILD_LIBRARY OR BUILD_FOR_TARGET)
     add_subdirectory(src)
 endif (BUILD_LIBRARY OR BUILD_FOR_TARGET)
 
 if (BUILD_STUB_LIBRARY)
-    set(STUB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/stub)
-    set(STUB_HEADERS_DIR ${STUB_INCLUDE_DIR}/avrframeworkstub)
-    include_directories(${STUB_INCLUDE_DIR})
     add_subdirectory(stub)
 endif (BUILD_STUB_LIBRARY)
 

@@ -8,7 +8,7 @@ message(STATUS "Processing: ${CMAKE_CURRENT_LIST_FILE}")
 
 project(AvrFrameworkLibrary C)
 
-add_compile_options(-std=gnu99)
+add_compile_options(-std=c11)
 
 if (BUILD_STATIC_LIBRARY)
     set(AVRFRAMEWORK_STATIC_LIBRARY
@@ -22,10 +22,16 @@ if (BUILD_SHARED_LIBRARY)
         CACHE INTERNAL "AVR framework shared library")
 endif (BUILD_SHARED_LIBRARY)
 
+#add_subdirectory(communication)
+#add_subdirectory(macros)
+#add_subdirectory(microos)
+#add_subdirectory(types)
 add_subdirectory(utilities)
 
 set(LIBRARIES
+    #AVR_FRAMEWORK_communication
     #AVR_FRAMEWORK_macros
+    #AVR_FRAMEWORK_microos
     #AVR_FRAMEWORK_types
     AVR_FRAMEWORK_utilities)
 
