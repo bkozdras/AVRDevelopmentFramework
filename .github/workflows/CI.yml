@@ -381,6 +381,7 @@ jobs:
           submodules: true
       - name: Set executable privileges to CI run scripts
         run: |
+          chmod +x ${{ github.workspace }}/ci/ut_lcov/installAndRunCppCoveralls.sh
           chmod +x ${{ github.workspace }}/ci/ut_lcov/runCMake.sh
           chmod +x ${{ github.workspace }}/ci/ut_lcov/runMake.sh
       - name: "Check docker container availability"
