@@ -460,6 +460,8 @@ jobs:
           label: Make-Build
           message: failing
           color: red
+      - name: Print content of lcov output file
+        run: cat ${{ github.workspace }}/build_UT_x86_64_LCOV/ut-code-coverage.info
       - name: Publish lcov result on coveralls.io
         uses: coverallsapp/github-action@master
         with:
