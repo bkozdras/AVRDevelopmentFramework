@@ -13,19 +13,22 @@ then
 fi
 
 THIS_DIR_NAME=${PWD##*/}
-if [ "$THIS_DIR_NAME" != "build_AVR" ]
+if [ "$THIS_DIR_NAME" != "build_UT_x86_64_LCOV" ]
 then
-    echo "ERROR: CI pipeline issue! This script (runCMake.sh) should be executed from build_AVR directory!"
+    echo "ERROR: CI pipeline issue! This script (runCMake.sh) should be executed from build_UT_x86_64_LCOV directory!"
     echo "This directory: $THIS_DIR_NAME"
     exit -1
 fi
 
 cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=avr-gcc \
-    -DCMAKE_CXX_COMPILER=avr-g++ \
-    -DAVR_FRAMEWORK_BUILD_FOR_TARGET=ON \
-    -DAVR_FRAMEWORK_BUILD_TEST_EXECUTABLE_FOR_TARGET=ON ..
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_COMPILER=gcc-$GCC_MAJOR_VERSION \
+    -DCMAKE_CXX_COMPILER=g++-$GCC_MAJOR_VERSION \
+    -DAVR_FRAMEWORK_BUILD_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON \
+    -DAVR_FRAMEWORK_GENERATE_CODE_COVERAGE=ON \
+    -DF_CPU=16000000UL ..
 
 if [ $? -ne 0 ]
 then

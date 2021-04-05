@@ -26,6 +26,11 @@
 ![badgeUTX8664Build](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664Build.json?service=github)
 ![badgeUTX8664CTest](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664CTest.json?service=github)
 
+[![JobUTX8664CodeCoverage](https://img.shields.io/badge/Job-UT--x86--64--Code--Coverage-lightgrey)](JOBUTX8664CODECOVERAGE)
+
+![badgeUTX8664CoverageCMake](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664CoverageCMake.json?service=github)
+![badgeUTX8664CoverageMakeAndLcov](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664CoverageMakeAndLcov.json?service=github)
+
 # Overview
 
 Framework used for AVR-based projects.

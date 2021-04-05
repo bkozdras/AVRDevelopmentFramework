@@ -12,9 +12,11 @@ add_subdirectory(macros)
 add_subdirectory(types)
 add_subdirectory(utilities)
 
-setup_target_for_coverage_lcov(
-    NAME ut-code-coverage
-    EXECUTABLE ctest -j ${PROCESSOR_COUNT}
-    DEPENDENCIES ${AVRFRAMEWORK_STATIC_LIBRARY}
-    EXCLUDE "build*/" "mock/*" "stub/*" "test/*" "test-programs/*"
-    LCOV_ARGS --no-external)
+if (GENERATE_CODE_COVERAGE)
+    setup_target_for_coverage_lcov(
+        NAME ut-code-coverage
+        EXECUTABLE ctest -j ${PROCESSOR_COUNT}
+        DEPENDENCIES ${AVRFRAMEWORK_STATIC_LIBRARY}
+        EXCLUDE "build*/" "mock/*" "stub/*" "test/*" "test-programs/*"
+        LCOV_ARGS --no-external)
+endif (GENERATE_CODE_COVERAGE)
