@@ -462,12 +462,18 @@ jobs:
           color: red
       - name: Print content of lcov output file
         run: cat ${{ github.workspace }}/build_UT_x86_64_LCOV/ut-code-coverage.info
-      - name: Publish lcov result on coveralls.io
-        uses: coverallsapp/github-action@master
+      - name: "Run gcov and publish code coverage results on coveralls.io"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: addnab/docker-run-action@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ${{ github.workspace }}/build_UT_x86_64_LCOV/ut-code-coverage.info
-          flag-name: "AVR-Framework Unit Tests Library Code Coverage"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspace_UT_LCOV -e GITHUB_TOKEN
+          run: |
+            cd workspace_UT_LCOV/build_UT_x86_64_LCOV
+            bash ../ci/ut_lcov/installAndRunCppCoveralls.sh
       - name: "Cleanup build artifacts"
         if: ${{ always() }}
         uses: addnab/docker-run-action@v3
