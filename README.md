@@ -27,7 +27,6 @@
 ![badgeUTX8664CTest](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664CTest.json?service=github)
 
 [![JobUTX8664CodeCoverage](https://img.shields.io/badge/Job-UT--x86--64--Code--Coverage-lightgrey)](JOBUTX8664CODECOVERAGE)
-[![CoverageStatus](https://coveralls.io/repos/github/bkozdras/avr-framework/badge.svg?branch=main)](COVERAGESTATUS)
 <a href='https://coveralls.io/github/bkozdras/avr-framework?branch=main'><img src='https://coveralls.io/repos/github/bkozdras/avr-framework/badge.svg?branch=main' alt='Coveralls.io' /></a>
 
 ![badgeUTX8664CoverageCMake](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/bkozdras/536fc4300ff360bc55fbf7d1b618ef4c/raw/badgeUTX8664CoverageCMake.json?service=github)
