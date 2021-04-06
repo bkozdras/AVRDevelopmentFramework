@@ -12,19 +12,20 @@ then
     exit -1
 fi
 
-THIS_DIR_NAME=${PWD##*/}
-if [ "$THIS_DIR_NAME" != "build_UT_x86_64_LCOV" ]
-then
-    echo "ERROR: CI pipeline issue! This script (installAndRunCppCoveralls.sh) should be executed from build_UT_x86_64_LCOV directory!"
-    echo "This directory: $THIS_DIR_NAME"
-    exit -1
-fi
+if [ -d .git ]; then
+  echo "This script should be executed from git repo root directory!";
+else
+  exit -1
+fi;
 
 pip3 install --user cpp-coveralls \
     && coveralls --verbose \
+    --build-root build_UT_x86_64_LCOV \
     --exclude _deps \
+    --exclude mock \
     --exclude stub \
     --exclude test \
+    --gcov-options '\-lp' \
     --repo-token $GITHUB_TOKEN \
     || echo "Failure in publishing code coverage result on coveralls.io"
 
