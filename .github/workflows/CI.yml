@@ -5,6 +5,7 @@ on:
       - '**.md'
       - 'LICENSE'
       - '.gitignore'
+      - 'scripts/**'
 jobs:
   wait-for-previous-workflow-finished:
     runs-on: ubuntu-latest
