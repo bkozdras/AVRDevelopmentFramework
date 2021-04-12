@@ -649,7 +649,7 @@ jobs:
             rm -r -f build_UT_x86_64_LCOV
   stop-azure-runner:
     runs-on: ubuntu-latest
-    needs: [build-avr-framework-docker-image, build-avr-framework-for-avr-target-with-example-executables-in-container, run-UT-in-avr-framework-container, run-UT-LCOV-in-avr-framework-container]
+    needs: [build-avr-framework-docker-image, build-avr-framework-for-avr-target-with-example-executables-in-container, run-UT-in-avr-framework-container, run-UT-with-address-sanitizer-in-avr-framework-container, run-UT-LCOV-in-avr-framework-container]
     if: ${{ always() }}
     steps:
       - name: Login to Azure
