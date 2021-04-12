@@ -38,6 +38,13 @@ if (GENERATE_CODE_COVERAGE)
     add_compile_options(-O0)
 endif (GENERATE_CODE_COVERAGE)
 
+if (USE_ADDRESS_SANITIZER)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -g")
+    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak")
+endif (USE_ADDRESS_SANITIZER)
+
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(HEADERS_DIR ${INCLUDE_DIR}/avrframework)
 include_directories(${INCLUDE_DIR})

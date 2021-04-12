@@ -1,6 +1,6 @@
 #**********************************************************************************#
 # Copyright by @bkozdras <b.kozdras@gmail.com>                                     #
-# Purpose: To build AVR libraries with tested executable files for each library.   #
+# Purpose: To build and run unit tests for the AVR framework / utilities.          #
 # Version: 1.0                                                                     #
 # Licence: MIT                                                                     #
 #**********************************************************************************#
@@ -37,19 +37,23 @@ fi
 mkdir -p build
 cd build
 
-BUILD_DIR=test-programs_AVR
+THIS_ARCH=$(uname -m | tr -d '\n')
+BUILD_DIR=ut_asan_$THIS_ARCH
 
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=avr-gcc \
-    -DCMAKE_CXX_COMPILER=avr-g++ \
-    -DAVR_FRAMEWORK_BUILD_FOR_TARGET=ON \
-    -DAVR_FRAMEWORK_BUILD_TEST_EXECUTABLE_FOR_TARGET=ON \
-    -DAVR_FRAMEWORK_AVR_MCU=atmega2560 \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_C_COMPILER=gcc-$GCC_MAJOR_VERSION \
+    -DCMAKE_CXX_COMPILER=g++-$GCC_MAJOR_VERSION \
+    -DAVR_FRAMEWORK_BUILD_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_BUILD_MOCK_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_BUILD_STUB_LIBRARY_STATIC=ON \
+    -DAVR_FRAMEWORK_UNIT_TESTING_ENABLED=ON \
+    -DAVR_FRAMEWORK_USE_ADDRESS_SANITIZER=ON \
     -DAVR_FRAMEWORK_AVR_MCU_FREQ=16000000UL ../.. \
-    && make -j$(nproc --all)
+    && make -j$(nproc --all) \
+    && ctest -j$(nproc --all) --output-on-failure --timeout 5
 
 exit 0

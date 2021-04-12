@@ -57,6 +57,33 @@ jobs:
           label: CTest
           message: unknown
           color: grey
+      - name: "Create badge UTX8664ASANCmake with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCmake.json
+          label: CMake
+          message: unknown
+          color: grey
+      - name: "Create badge UTX8664ASANBuild with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANBuild.json
+          label: Make-Build
+          message: unknown
+          color: grey
+      - name: "Create badge UTX8664ASANCTest with unknown state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCTest.json
+          label: CTest
+          message: unknown
+          color: grey
       - name: "Create badge UTX8664CoverageCMake with unknown state"
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
@@ -372,6 +399,136 @@ jobs:
           run: |
             cd workspaceUT
             rm -r -f build_UT_x86_64
+  run-UT-with-address-sanitizer-in-avr-framework-container:
+    runs-on: [self-hosted, Azure, Docker]
+    needs: build-avr-framework-docker-image
+    steps:
+      - name: Checkout / clone GitHub repo
+        uses: actions/checkout@main
+        with:
+          submodules: true
+      - name: Set executable privileges to CI run scripts
+        run: |
+          chmod +x ${{ github.workspace }}/ci/ut_asan/runCMake.sh
+          chmod +x ${{ github.workspace }}/ci/ut_asan/runCTest.sh
+          chmod +x ${{ github.workspace }}/ci/ut_asan/runMake.sh
+      - name: "Check docker container availability"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            echo "Executed in docker container. Test: OK!"
+      - name: "Create directory for build artifacts"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            cd workspaceUT_ASAN
+            mkdir -p build_UT_ASAN_x86_64
+      - name: "Run CMake for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            cd workspaceUT_ASAN/build_UT_ASAN_x86_64
+            bash ../ci/ut_asan/runCMake.sh
+      - name: "Create badge UTX8664ASANCmake with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCmake.json
+          label: CMake
+          message: passing
+          color: green
+      - name: "Create badge UTX8664ASANCmake with failing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCmake.json
+          label: CMake
+          message: failing
+          color: red
+      - name: "Run Make for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            cd workspaceUT_ASAN/build_UT_ASAN_x86_64
+            bash ../ci/ut_asan/runMake.sh
+      - name: "Create badge UTX8664ASANBuild with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANBuild.json
+          label: Make-Build
+          message: passing
+          color: green
+      - name: "Create badge UTX8664ASANBuild with failing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANBuild.json
+          label: Make-Build
+          message: failing
+          color: red
+      - name: "Run CTest for UT"
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            cd workspaceUT_ASAN/build_UT_ASAN_x86_64
+            bash ../ci/ut_asan/runCTest.sh
+      - name: "Create badge UTX8664ASANCTest with passing state"
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCTest.json
+          label: CTest
+          message: passing
+          color: green
+      - name: "Create badge UTX8664ASANCTest with failing state"
+        if: ${{ failure() }}
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_CI_TOKEN }}
+          gistID: 536fc4300ff360bc55fbf7d1b618ef4c
+          filename: badgeUTX8664ASANCTest.json
+          label: CTest
+          message: failing
+          color: red
+      - name: "Cleanup build artifacts"
+        if: ${{ always() }}
+        uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          image: nemuuser/avr-build-env:latest
+          options: -v ${{ github.workspace }}:/workspaceUT_ASAN
+          run: |
+            cd workspaceUT_ASAN
+            rm -r -f build_UT_ASAN_x86_64
   run-UT-LCOV-in-avr-framework-container:
     runs-on: [self-hosted, Azure, Docker]
     needs: build-avr-framework-docker-image
